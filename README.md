@@ -19,4 +19,4 @@ start the dev server
 
 ```npm run dev```
 
-open browser at http://localhost:8000 and enjoy!!!
+open browser at http://localhost:3000 and enjoy!!!
