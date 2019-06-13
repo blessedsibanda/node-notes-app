@@ -1,5 +1,5 @@
 # node-notes-app
-A notes web app using node
+## A notes web app using node
 
 To run this app
 
