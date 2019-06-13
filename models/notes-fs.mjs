@@ -20,6 +20,7 @@ function filePath(notesdir, key) {
 async function readJSON(notesdir, key) {
     const readFrom = filePath(notesdir, key);
     var data = await fs.readFile(readFrom, 'utf8');
+    debug(`readJSON ${data}`);
     return Note.fromJSON(data);
 }
 
@@ -30,6 +31,7 @@ async function crupdate(key, title, body) {
     var note = new Note(key, title, body);
     const writeTo = filePath(notesdir, key);
     const writeJSON = note.JSON;
+    debug(`WRITE ${writeTo} ${writeJSON}`);
     await fs.writeFile(writeTo, writeJSON, 'utf8');
     return note;
 }
@@ -45,6 +47,7 @@ export function update(key, title, body) {
 export async function read(key) {
     var notesdir = await notesDir();
     var thenote = await readJSON(notesdir, key);
+    debug(`READ ${notesdir}/${key} ${util.inspect(thenote)}`); 
     return thenote;
 }
 
@@ -57,8 +60,10 @@ export async function keylist() {
     var notesdir = await notesDir();
     var filez = await fs.readdir(notesdir);
     if (!filez || typeof filePath === 'undefined') filez = [];
+    debug(`keylist dir ${notesdir} files=${util.inspect(filez)}`); 
     var thenotes = filez.map(async fname => {
         var key = path.basename(fname, '.json');
+        debug(`About to READ ${key}`); 
         var thenote = await readJSON(notesdir, key);
         return thenote.key;
     });
