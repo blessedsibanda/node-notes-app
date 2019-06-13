@@ -15,4 +15,16 @@ export default class Note {
     set title(newTitle) { return this[_note_title] = newTitle; }
     get body() { return this[_note_body]; }
     set body(newBody) { return this[_note_body] = newBody; }
+
+    get JSON() {
+        return JSON.stringify({
+            key: this.key, title: this.title, body: this.body
+        })
+    }
+
+    static fromJSON(json) {
+        var data = JSON.parse(json);
+        var note = new Note(data.key, data.title, data.body);
+        return note;
+    }
 };

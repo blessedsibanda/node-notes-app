@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www.mjs",
+    "start-fs": "DEBUG=notes:* NOTES_MODEL=fs node --experimental-modules ./bin/www.mjs",
     "dev": "DEBUG=notes:* nodemon ./bin/www.mjs"
   },
   "dependencies": {

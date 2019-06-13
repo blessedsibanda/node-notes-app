@@ -28,7 +28,7 @@ app.set('view engine', 'hbs');
 hbs.registerPartials(path.join(__dirname, 'partials'));
 
 // const accessLogStream = fs.createWriteStream(__dirname + '/access.log', { flags: 'a'})
-const logStream;
+let logStream;
 // Log to a file if requested
 if (process.env.REQUEST_LOG_FILE) {
   (async () => {
