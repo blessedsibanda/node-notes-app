@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hbs = require('hbs');
+const fs = require('fs-extra');
+const rfs = require('rotating-file-stream');
+const error = require('debug')('notes:error');
+const util = require('util');
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -16,7 +20,32 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(path.join(__dirname, 'partials'));
 
-app.use(logger('dev'));
+// var accessLogStream = fs.createWriteStream(__dirname + '/access.log', { flags: 'a'})
+var logStream;
+// Log to a file if requested
+if (process.env.REQUEST_LOG_FILE) {
+  (async () => {
+    let logDirectory = path.dirname(process.env.REQUEST_LOG_FILE);
+    await fs.ensureDir(logDirectory);
+    logStream = rfs(process.env.REQUEST_LOG_FILE, {
+      size: "10M", // rotate every 10 MegaBytes written
+      interval: "1d", // rotate daily
+      compress: "gzip" // compress rotated files
+    })
+  })().catch(err => { console.error(err); })
+}
+
+process.on('uncaughtException', function(err) {
+  error('I\'ve crashed!!! - '+ (err.stack || err));
+});
+
+process.on('unhandledRejection', (reason, p) => {
+  error(`Unhandled Rejection at: ${util.inspect(p)} reason: ${reason}`);
+});
+
+app.use(logger(process.env.REQUEST_LOG_FORMAT || 'dev', 
+  {stream: logStream ? logStream: process.stdout}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
