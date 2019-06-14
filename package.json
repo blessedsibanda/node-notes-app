@@ -5,7 +5,12 @@
   "scripts": {
     "start": "node --experimental-modules ./bin/www.mjs",
     "start-fs": "DEBUG=notes:* NOTES_MODEL=fs node --experimental-modules ./bin/www.mjs",
-    "dev": "DEBUG=notes:* nodemon --experimental-modules  ./bin/www.mjs"
+    "start-level": "DEBUG=notes:* NOTES_MODEL=level node --experimental-modules ./bin/www.mjs",
+    "dev": "DEBUG=notes:* nodemon --experimental-modules  ./bin/www.mjs",
+    "sqlite3-setup": "sqlite3 chap07.sqlite3 --init models/schema-sqlite3.sql",
+    "start-sqlite3": "DEBUG=notes:* SQLITE_FILE=chap07.sqlite3 NOTES_MODEL=sqlite3 node --experimental-modules ./bin/www.mjs",
+    "start-sequelize": "DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize node --experimental-modules ./bin/www.mjs",
+    "start-mongodb": "DEBUG=notes:* MONGO_URL=mongodb://localhost/ MONGO_DBNAME=chap07 NOTES_MODEL=mongodb node --experimental-modules ./bin/www.mjs"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -21,9 +26,10 @@
     "level": "^5.0.1",
     "mongodb": "^3.2.7",
     "morgan": "~1.9.0",
+    "mysql": "^2.17.1",
     "popper.js": "^1.14.7",
     "rotating-file-stream": "^1.4.1",
-    "sequelize": "^5.8.9",
-    "sqlite": "^3.0.3"
+    "sequelize": "^4.31.2",
+    "sqlite3": "^4.0.9"
   }
 }
