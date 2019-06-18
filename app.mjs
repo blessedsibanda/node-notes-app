@@ -8,9 +8,17 @@ import fs from 'fs-extra';
 import rfs from 'rotating-file-stream';
 import DBG from 'debug';
 import util from 'util';
+import session from 'express-session'
+import sessionFileStore from 'session-file-store'
+
+const FileStore = sessionFileStore(session)
+
+export const sessionCookieName = 'notescookie.sid'
 
 import {router as indexRouter } from './routes/index';
 import {router as notesRouter } from './routes/notes';
+import {router as usersRouter, initPassport } from './routes/users';
+
 
 const debug = DBG('notes:debug')
 const error = DBG('notes:error')
@@ -21,6 +29,16 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 
 const app = express();
+
+app.use(session({
+  store: new FileStore({ path: 'sessions' }),
+  secret: 'some crazy secret',
+  resave: true,
+  saveUninitialized: true,
+  name: sessionCookieName
+}))
+
+initPassport(app)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -71,7 +89,7 @@ app.use('/assets/vendor/feather-icons', express.static(
 ))
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/users', usersRouter);
 app.use('/notes', notesRouter);
 
 // catch 404 and forward to error handler

@@ -1,14 +1,26 @@
 <form method='POST' action='/notes/destroy/confirm'>
   <div class='container-fluid'>
-    <input type='hidden' name='notekey' value='{{#if note}}{{notekey}}{{/if}}'>
-    <p class='form-text'>Delete {{note.title}}?</p>
-    <div class='btn-group'>
-      <button type='submit' value='DELETE' 
-              class='btn btn-outline-dark'>DELETE</button>
-      <a class='btn btn-outline-dark' 
-              href='/notes/view?key={{#if note}}{{notekey}}{{/if}}' 
-              role='button'>
-         Cancel</a>
-    </div>
+    {{#if user}}
+      <input type='hidden' name='notekey' value='{{#if note}}{{notekey}}{{/if}}'>
+      <p class='form-text'>Delete {{note.title}}?</p>
+      <div class='btn-group'>
+        <button type='submit' value='DELETE' 
+                class='btn btn-outline-dark'>DELETE</button>
+        <a class='btn btn-outline-dark' 
+                href='/notes/view?key={{#if note}}{{notekey}}{{/if}}' 
+                role='button'>
+          Cancel</a>
+      </div>    
+    {{else}}
+      {{!-- {{> notloggedin.hbs }} --}}
+      <div class='jumbotron'> 
+      <h1>Not Logged In</h1> 
+      <p>You are required to be logged in for this action, but you are not. 
+      You should not see this message. It's a bug if this message appears.   
+      </p> 
+      <p><a class='btn btn-primary' href='/users/login'>Log in</a></p> 
+      </div>
+    {{/if}}
+  
   </div>
 </form>

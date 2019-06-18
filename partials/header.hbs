@@ -9,8 +9,18 @@
         aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span></button>
         <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-            <span class='navbar-text col'>{{ title }}</span>
-            <a class='nav-item nav-link btn btn-light col-auto' href='/notes/add'>ADD Note</a>
+            <span class='navbar-text text-dark col'>{{ title }}</span>
+            {{#if user}}
+                <a class='btn btn-dark col-auto' href='/users/logout'>
+                    Log Out <span class='badge badge-light'>{{ user.username }}</span>
+                </a>
+                <a class='nav-item nav-link btn btn-light col-auto' href='/notes/add'>ADD Note</a>    
+            {{else}}
+                <a class='btn btn-dark col-auto' href='/users/login'>
+                    Log In
+                </a>
+            {{/if}}
+            
         </div>
     </nav>
 </header>
