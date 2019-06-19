@@ -1,3 +1,12 @@
+import _events from './notes-events.mjs'
+import util from 'util'
+
+import DBG from 'debug';
+const debug = DBG('notes:notes-notes'); 
+const error = DBG('notes:error-notes'); 
+
+export const events = _events;
+
 var NotesModule;
 
 async function model() {
@@ -7,11 +16,16 @@ async function model() {
 }
 
 export async function create(key, title, body) {
-    return (await model()).create(key, title, body);
+    const note = (await model()).create(key, title, body);
+    _events.noteCreated(note);
+    return note;
 }
 
 export async function update(key, title, body) {
-    return (await model()).update(key, title, body);
+    const note = (await model()).update(key, title, body);
+    debug(`note updated ${util.inspect(note)}`);
+    _events.noteUpdate(note);
+    return note;
 }
 
 export async function read(key) {
@@ -19,7 +33,9 @@ export async function read(key) {
 }
 
 export async function destroy(key) {
-    return (await model()).destroy(key);
+    await model().destroy(key);
+    _events.noteDestroy({ key });
+    return key;
 }
 
 export async function keylist() {

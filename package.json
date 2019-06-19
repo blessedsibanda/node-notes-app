@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 node --experimental-modules ./bin/www.mjs",
-    "start-fs": "DEBUG=notes:* NOTES_MODEL=fs node --experimental-modules ./bin/www.mjs",
-    "start-level": "DEBUG=notes:* NOTES_MODEL=level node --experimental-modules ./bin/www.mjs",
-    "dev": "DEBUG=notes:* nodemon --experimental-modules  ./bin/www.mjs",
+    "start": "DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize USER_SERVICE_URL=http://localhost:3333 node --experimental-modules ./app",
+    "start-fs": "DEBUG=notes:* NOTES_MODEL=fs node --experimental-modules ./app",
+    "start-level": "DEBUG=notes:* NOTES_MODEL=level node --experimental-modules ./app",
+    "dev": "DEBUG=notes:* nodemon --experimental-modules  ./app",
     "sqlite3-setup": "sqlite3 chap07.sqlite3 --init models/schema-sqlite3.sql",
-    "start-sqlite3": "DEBUG=notes:* SQLITE_FILE=chap07.sqlite3 NOTES_MODEL=sqlite3 node --experimental-modules ./bin/www.mjs",
-    "start-sequelize": "DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize node --experimental-modules ./bin/www.mjs",
-    "start-mongodb": "DEBUG=notes:* MONGO_URL=mongodb://localhost/ MONGO_DBNAME=chap07 NOTES_MODEL=mongodb node --experimental-modules ./bin/www.mjs"
+    "start-sqlite3": "DEBUG=notes:* SQLITE_FILE=chap07.sqlite3 NOTES_MODEL=sqlite3 node --experimental-modules ./app",
+    "start-sequelize": "DEBUG=notes:* SEQUELIZE_CONNECT=models/sequelize-sqlite.yaml NOTES_MODEL=sequelize node --experimental-modules ./app",
+    "start-mongodb": "DEBUG=notes:* MONGO_URL=mongodb://localhost/ MONGO_DBNAME=chap07 NOTES_MODEL=mongodb node --experimental-modules ./app"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -35,6 +35,7 @@
     "popper.js": "^1.14.7",
     "rotating-file-stream": "^1.4.1",
     "sequelize": "^4.31.2",
+    "serve-favicon": "^2.5.0",
     "session-file-store": "^1.2.0",
     "socket.io": "^2.2.0",
     "sqlite3": "^4.0.9",

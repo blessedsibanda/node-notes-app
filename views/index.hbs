@@ -1,6 +1,6 @@
 <div class='container-fluid'>
   <div class='row'>
-    <div class='col-12 btn-group-vertical' role='group'>
+    <div id="notetitles" class='col-12 btn-group-vertical' role='group'>
       {{#each notelist}}
       <a class='btn btn-lg btn-block btn-outline-dark' 
           href='/notes/view?key={{ key }}'>{{ title }}</a>
@@ -8,3 +8,26 @@
     </div>
   </div>
 </div>
+
+{{> footerjs}}
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  $(document).ready(function () {
+    var socket = io.connect('http://localhost:3000')
+    
+    socket.on('notetitles', function(data) {
+      alert('changed')
+      var notelist = data.notelist  
+      $('#notetitles').empty()
+      for (var i=0; i<notelist.length; i++) {
+        notedata = notelist[i]
+        console.log(`Adding Note Title ${JSON.stringify(notedata)}`);
+        $('#notetitles').append(
+          `<a class='btn btn-lg btn-block btn-outline-dark' 
+            href='/notes/view?key=${notedata.key}'>${notedata.title}</a>`
+        )
+      }
+    })
+  })
+</script>
